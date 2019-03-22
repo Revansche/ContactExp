@@ -26,13 +26,13 @@
                             <constraint firstAttribute="width" secondItem="FE6-7d-v86" secondAttribute="height" multiplier="1:1" constant="1" id="VHI-qF-bAH"/>
                         </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="usZ-Lv-LUV" userLabel="User Image">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon_Picture_Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="usZ-Lv-LUV" userLabel="User Image">
                         <rect key="frame" x="16" y="12" width="39.5" height="39.5"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="usZ-Lv-LUV" secondAttribute="height" multiplier="1:1" id="opH-Fq-TK2"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="asdasdasdasd" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MaZ-pA-o4E">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="asdasdasdasd" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MaZ-pA-o4E">
                         <rect key="frame" x="71.5" y="23.5" width="192" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <nil key="textColor"/>
@@ -60,5 +60,6 @@
     </objects>
     <resources>
         <image name="Icon_Favorite" width="19" height="18"/>
+        <image name="Icon_Picture_Placeholder" width="126" height="126"/>
     </resources>
 </document>
