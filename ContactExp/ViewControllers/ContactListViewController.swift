@@ -7,43 +7,49 @@
 //
 
 import UIKit
+import JGProgressHUD
 
 class ContactListViewController: UIViewController {
 
   @IBOutlet weak var tableView: UITableView!
   
   private var contactListViewModel: ContactListViewModel!
+  var hud: JGProgressHUD!
   
   override func viewDidLoad() {
       super.viewDidLoad()
+      hud = JGProgressHUD(style: .dark)
       contactListViewModel = ContactListViewModel(networkViewDelegate: self)
       contactListViewModel.getContactList()
-      // Do any additional setup after loading the view.
+      
       setNavigationBar("Contacts")
       registerCell()
       tableView.delegate = self
       tableView.dataSource = self
+    
+      view.accessibilityIdentifier = "contactListView"
+      tableView.accessibilityIdentifier = "contactListTable"
   }
   
   func setNavigationBar(_ title: String) {
-    self.navigationController?.navigationBar.backgroundColor = UIColor.white
-    self.navigationController?.navigationBar.tintColor = UIColor.white
-    self.navigationController?.navigationBar.isTranslucent = false
+    let rightButtonItem = UIBarButtonItem(barButtonSystemItem: .add
+      , target: self, action: #selector(navigationRightBarAction))
+    rightButtonItem.accessibilityIdentifier = "navbarRightItem"
+    let leftButtonItem = UIBarButtonItem(title: "Groups", style: .plain, target: nil, action: nil)
+    
     self.navigationItem.title = title
-    self.navigationController?.setNavigationBarHidden(false, animated: false)
-    self.setBackButtonTitle(" ")
-  }
-  
-  func setBackButtonTitle(_ title: String) {
-    let backItem = UIBarButtonItem()
-    backItem.title = title
-    self.navigationItem.backBarButtonItem = backItem
+    self.navigationItem.rightBarButtonItem = rightButtonItem
+    self.navigationItem.leftBarButtonItem = leftButtonItem
   }
   
   private func registerCell() {
     let cellClassName = "ContactTableViewCell"
     self.tableView.register(UINib(nibName: cellClassName, bundle: nil),
                             forCellReuseIdentifier: cellClassName)
+  }
+  
+  @objc private func navigationRightBarAction() {
+    ListRouter.goToAddContact(on: self.navigationController)
   }
 }
 
@@ -89,19 +95,36 @@ extension ContactListViewController: UITableViewDelegate, UITableViewDataSource 
 
 extension ContactListViewController: NetworkViewProtocol {
   func showLoader() {
-    
+    hud.textLabel.text = "Loeading.."
+    hud.show(in: self.view)
   }
   
   func hideLoader() {
-    
+    hud.dismiss(afterDelay: 1.0)
   }
   
   func showResult() {
+    hideLoader()
     tableView.reloadData()
   }
 }
 
 struct ListRouter {
+  
+  static func goToAddContact(on navigationController: UINavigationController?) {
+    let action = MutateContactAddAction()
+    let contactModel = ContactsModel()
+    let viewModel = MutateContactViewModel(action: action, contactModel: contactModel)
+    let viewController = MutateContactViewController(viewModel: viewModel)
+    navigationController?.pushViewController(viewController, animated: true)
+  }
+  
+  static func goToMutateContact(on navigationController: UINavigationController?, for action: Action, with contactModel: ContactsModel = ContactsModel()) {
+    let viewModel = MutateContactViewModel(action: action, contactModel: contactModel)
+    let viewController = MutateContactViewController(viewModel: viewModel)
+    navigationController?.pushViewController(viewController, animated: true)
+  }
+  
   static func goToDetail(withData contactData: ContactItemListModel, onNavigationController navigationController: UINavigationController?) {
     let viewModel = ContactDetailViewModel(detailUrl: contactData.url)
     let viewController = ContactDetailViewController(viewModel: viewModel)

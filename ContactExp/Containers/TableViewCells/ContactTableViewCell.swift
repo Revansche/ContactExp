@@ -21,8 +21,7 @@ class ContactTableViewCell: UITableViewCell {
     }
   
     private func setupUserImage() {
-      userImageView.layer.cornerRadius = userImageView.frame.height / 2
-      userImageView.clipsToBounds = true
+      UtilFunctions.roundClipping(on: userImageView)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -35,28 +34,4 @@ class ContactTableViewCell: UITableViewCell {
         userNameLabel.text = contact.fullName
         userImageView.image(from: contact.profilePic)
     }
-}
-
-extension UIImageView {
-  func image(from urlString: String) {
-    print("Download Started")
-    guard let url = URL(string: urlString) else {
-      return
-    }
-    getData(from: url) {[weak self] data, response, error in
-      guard let `self` = self else {
-        return
-      }
-      guard let data = data, error == nil else { return }
-      print(response?.suggestedFilename ?? url.lastPathComponent)
-      print("Download Finished")
-      DispatchQueue.main.async() {
-        self.image = UIImage(data: data)
-      }
-    }
-  }
-  
-  func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
-    URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
-  }
 }

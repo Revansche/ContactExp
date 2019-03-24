@@ -7,6 +7,7 @@ target 'ContactExp' do
 
   # Pods for ContactExp
   pod 'Alamofire', '~> 4.8.0'
+  pod 'JGProgressHUD', '2.0.2'
 
   target 'ContactExpTests' do
     inherit! :search_paths

@@ -15,6 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
+    if CommandLine.arguments.contains("--uitesting") {
+      //RESET STATE
+    }
     window = UIWindow(frame: UIScreen.main.bounds)
     setupRoot()
     return true
@@ -47,6 +50,10 @@ extension AppDelegate {
   private func setupRoot() {
     let mainViewController = ContactListViewController(nibName: "ContactListViewController", bundle: nil)
     let rootNavigationController = UINavigationController.init(rootViewController: mainViewController)
+    rootNavigationController.navigationBar.backgroundColor = UIColor.white
+    rootNavigationController.navigationBar.tintColor = Constants.colorOpaqueTurqois
+    rootNavigationController.navigationBar.isOpaque = true    
+    rootNavigationController.setNavigationBarHidden(false, animated: false)
     window?.rootViewController = rootNavigationController
     window?.makeKeyAndVisible()
   }
